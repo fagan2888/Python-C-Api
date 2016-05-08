@@ -1,0 +1,7 @@
+build/
+*.o
+*.xml
+*.xsd
+*.pyc
+*.py~
+pylib
