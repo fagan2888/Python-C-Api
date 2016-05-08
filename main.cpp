@@ -4,15 +4,8 @@
 #include <string>
 #include <Plugin.h>
 #include <QDebug>
-int main(int argc, char *argv[])
-{
-    namespace python = boost::python;
 
-    QCoreApplication a(argc, argv);
-
-    Py_Initialize();
-    PyRun_SimpleString("import sys; sys.path.append('.')");
-
+void simpleFun() {
     PyObject* myModuleString = PyString_FromString((char*)"configuration");
     PyObject* myModule = PyImport_Import(myModuleString);
 
@@ -22,10 +15,20 @@ int main(int argc, char *argv[])
     std::string server = PyString_AsString(myResult);
 
     qDebug()<<QString::fromStdString(server);
+}
+
+int main(int argc, char *argv[])
+{
+    namespace python = boost::python;
+
+    QCoreApplication a(argc, argv);
+
+    Py_Initialize();
+    PyRun_SimpleString("import sys; sys.path.append('.')");
+
+    simpleFun();
 
     Py_Finalize();
-
-
 
     return a.exec();
 }
