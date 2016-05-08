@@ -35,7 +35,7 @@ def extract_server():
 
 	ret = "{0}:{1}".format(s.ip,s.port)
 
-	return 	ret.replace("\"",'')
+	return s
 
 def getVal():
 	return "plugin"

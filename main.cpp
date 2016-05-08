@@ -17,6 +17,24 @@ void simpleFun() {
     qDebug()<<QString::fromStdString(server);
 }
 
+void getAttr() {
+    PyObject* myModuleString = PyString_FromString((char*)"configuration");
+    PyObject* myModule = PyImport_Import(myModuleString);
+
+    PyObject* myFunction = PyObject_GetAttrString(myModule,(char*)"extract_server");
+    PyObject* server = PyObject_CallFunction(myFunction, NULL);
+
+    int hasattr = PyObject_HasAttrString(server, (char*)"ip");
+    qDebug()<<hasattr;
+
+    PyObject* attr = PyObject_GetAttrString(server, (char*)"ip");
+    std::string serverip = PyString_AsString(attr);
+
+    qDebug()<<QString::fromStdString(serverip);
+
+
+}
+
 int main(int argc, char *argv[])
 {
     namespace python = boost::python;
@@ -26,9 +44,10 @@ int main(int argc, char *argv[])
     Py_Initialize();
     PyRun_SimpleString("import sys; sys.path.append('.')");
 
-    simpleFun();
+    //simpleFun();
+    getAttr();
 
-    Py_Finalize();
+    //Py_Finalize();
 
     return a.exec();
 }
