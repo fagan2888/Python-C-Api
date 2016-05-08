@@ -12,7 +12,9 @@ TEMPLATE = app
 LIBS += -lpython2.7 -lboost_python
 INCLUDEPATH += /usr/include/python2.7/
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    pyWrapper.cpp
 
 HEADERS += \
-    Plugin.h
+    Plugin.h \
+    pyWrapper.h

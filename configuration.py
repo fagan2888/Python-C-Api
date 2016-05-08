@@ -32,16 +32,13 @@ def extract_server():
 	ip_addr = cfg.server.ip
 	port = cfg.server.port
 	s = server(ip_addr, port)
-
-	ret = "{0}:{1}".format(s.ip,s.port)
+	#ret = "{0}:{1}".format(s.ip,s.port)
 
 	return s
 
-def getVal():
-	return "plugin"
-
-def extract_plugin(number):
-	return ""
+def extract_plugins():
+	plugins = []
+	return plugins
 	
 
 

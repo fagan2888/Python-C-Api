@@ -48,8 +48,10 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp moc_Plugin.cpp
+SOURCES       = main.cpp \
+		pyWrapper.cpp moc_Plugin.cpp
 OBJECTS       = main.o \
+		pyWrapper.o \
 		moc_Plugin.o
 DIST          = ../../Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.5/gcc_64/mkspecs/common/unix.conf \
@@ -185,7 +187,9 @@ DIST          = ../../Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.5/gcc_64/mkspecs/features/exceptions.prf \
 		../../Qt/5.5/gcc_64/mkspecs/features/yacc.prf \
 		../../Qt/5.5/gcc_64/mkspecs/features/lex.prf \
-		pylib.pro Plugin.h main.cpp
+		pylib.pro Plugin.h \
+		pyWrapper.h main.cpp \
+		pyWrapper.cpp
 QMAKE_TARGET  = pylib
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = pylib
@@ -503,8 +507,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents Plugin.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents Plugin.h pyWrapper.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp pyWrapper.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -739,8 +743,73 @@ main.o: main.cpp ../../Qt/5.5/gcc_64/include/QtCore/QCoreApplication \
 		../../Qt/5.5/gcc_64/include/QtCore/qvector.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qpoint.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qset.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h
+		../../Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		pyWrapper.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+pyWrapper.o: pyWrapper.cpp pyWrapper.h \
+		/usr/include/python2.7/Python.h \
+		/usr/include/python2.7/patchlevel.h \
+		/usr/include/python2.7/pyconfig.h \
+		/usr/include/python2.7/pymacconfig.h \
+		/usr/include/python2.7/pyport.h \
+		/usr/include/python2.7/pymath.h \
+		/usr/include/python2.7/pymem.h \
+		/usr/include/python2.7/object.h \
+		/usr/include/python2.7/objimpl.h \
+		/usr/include/python2.7/pydebug.h \
+		/usr/include/python2.7/unicodeobject.h \
+		/usr/include/python2.7/intobject.h \
+		/usr/include/python2.7/boolobject.h \
+		/usr/include/python2.7/longobject.h \
+		/usr/include/python2.7/floatobject.h \
+		/usr/include/python2.7/complexobject.h \
+		/usr/include/python2.7/rangeobject.h \
+		/usr/include/python2.7/stringobject.h \
+		/usr/include/python2.7/memoryobject.h \
+		/usr/include/python2.7/bufferobject.h \
+		/usr/include/python2.7/bytesobject.h \
+		/usr/include/python2.7/bytearrayobject.h \
+		/usr/include/python2.7/tupleobject.h \
+		/usr/include/python2.7/listobject.h \
+		/usr/include/python2.7/dictobject.h \
+		/usr/include/python2.7/enumobject.h \
+		/usr/include/python2.7/setobject.h \
+		/usr/include/python2.7/methodobject.h \
+		/usr/include/python2.7/moduleobject.h \
+		/usr/include/python2.7/funcobject.h \
+		/usr/include/python2.7/classobject.h \
+		/usr/include/python2.7/fileobject.h \
+		/usr/include/python2.7/cobject.h \
+		/usr/include/python2.7/pycapsule.h \
+		/usr/include/python2.7/traceback.h \
+		/usr/include/python2.7/sliceobject.h \
+		/usr/include/python2.7/cellobject.h \
+		/usr/include/python2.7/iterobject.h \
+		/usr/include/python2.7/genobject.h \
+		/usr/include/python2.7/descrobject.h \
+		/usr/include/python2.7/warnings.h \
+		/usr/include/python2.7/weakrefobject.h \
+		/usr/include/python2.7/codecs.h \
+		/usr/include/python2.7/pyerrors.h \
+		/usr/include/python2.7/pystate.h \
+		/usr/include/python2.7/pyarena.h \
+		/usr/include/python2.7/modsupport.h \
+		/usr/include/python2.7/pythonrun.h \
+		/usr/include/python2.7/ceval.h \
+		/usr/include/python2.7/sysmodule.h \
+		/usr/include/python2.7/intrcheck.h \
+		/usr/include/python2.7/import.h \
+		/usr/include/python2.7/abstract.h \
+		/usr/include/python2.7/compile.h \
+		/usr/include/python2.7/code.h \
+		/usr/include/python2.7/eval.h \
+		/usr/include/python2.7/pyctype.h \
+		/usr/include/python2.7/pystrtod.h \
+		/usr/include/python2.7/pystrcmp.h \
+		/usr/include/python2.7/dtoa.h \
+		/usr/include/python2.7/pyfpe.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pyWrapper.o pyWrapper.cpp
 
 moc_Plugin.o: moc_Plugin.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Plugin.o moc_Plugin.cpp
